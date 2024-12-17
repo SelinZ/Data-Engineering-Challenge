@@ -1,0 +1,20 @@
+# Python-specific ignores 
+__pycache__/ 
+*.pyc 
+*.pyo 
+*.pyd 
+
+# Environment files 
+.env 
+
+# Docker-related ignores 
+*.log 
+docker-compose.override.yml 
+
+# Operating system-specific ignores 
+.DS_Store 
+Thumbs.db 
+
+# IDE-specific ignores 
+.vscode/ 
+.idea/ 

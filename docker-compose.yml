@@ -1,0 +1,34 @@
+version: "3.7"
+
+services:
+
+  mariadb:
+    image: "mariadb:10.7.3-focal"
+    networks:
+      - crawler-network
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: "yes"
+      MARIADB_DATABASE: "crawler_dev"
+      MARIADB_USER: "crawler"
+      MARIADB_PASSWORD: "a-insights"
+    volumes:
+      - type: bind
+        source: ./database/
+        target: /docker-entrypoint-initdb.d/
+
+  crawler:
+    build: crawler
+    networks:
+      - crawler-network
+    depends_on:
+      - mariadb
+    environment:
+      MARIADB_DATABASE: "crawler_dev"
+      MARIADB_USER: "crawler"
+      MARIADB_PASSWORD: "a-insights"
+      MARIADB_HOST: "mariadb"
+
+
+networks:
+  crawler-network:
+    name: "crawler-network"
