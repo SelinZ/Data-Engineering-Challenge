@@ -78,13 +78,13 @@ class WikiCrawler:
 
             # Extract the summary (first 150 words of the main content)
             paragraphs = soup.find_all('p', limit=7)  # Fetch first few paragraphs
-            summary = ""
-            for p in paragraphs:
-                summary += p.get_text(strip=True) + " "
-                if len(summary.split()) > 150:
-                    summary = " ".join(summary.split()[:150])  # Limit to 150 words
+            summary_words = []
+            for pa in paragraphs:
+                summary_words.extend(pa.get_text(strip=True).split())
+                if len(summary_words) >= 150:
                     break
-
+            summary = " ".join(summary_words[:150])
+    
             # Extract the main image URL (if available)
             image_tag = soup.find('img')
             image_url = f"https:{image_tag['src']}" if image_tag else None
