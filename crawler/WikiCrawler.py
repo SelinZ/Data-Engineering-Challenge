@@ -20,9 +20,7 @@ class WikiCrawler:
     """
     A crawler that extract data from wikipedia pages then save the data in MariaDB.
     """
-    def __init__(
-            self
-    ):
+    def __init__(self):
         """
         Initialise the WikiCrawler.
         """
@@ -53,8 +51,8 @@ class WikiCrawler:
 
     @staticmethod
     def get_crawl_list() -> list:
-        # Sleep for 20 seconds in case the crawler starts too fast while the mariadb is not ready.
-        time.sleep(20)
+        # Sleep for 10 seconds in case the crawler starts too fast while the mariadb is not ready.
+        time.sleep(10)
         return [
             'https://en.wikipedia.org/wiki/Winged_Victory_of_Samothrace',
             'https://en.wikipedia.org/wiki/Girl_with_a_Pearl_Earring',
@@ -97,26 +95,53 @@ class WikiCrawler:
             return None
 
 
-    def save(self, article):
+    def save(self, article: dict):
         """
-        Save the wikipedia data to the table 'wiki_articles'
+        Save the wikipedia data to the table 'wiki_articles' table in MariaDB.
+        :param article: A dictionary containing 'title', 'summary', and 'image_url'.
+        :return: True or False
+        """
+        if not article:
+            self._logger.warning("No article data to save. Skipping...")
+            return False
 
-        :return:
-        """
-        # TODO: Please implement this function
-        pass
+        try:
+        #Insert the article into the database
+            self._logger.info(f"Saving article to database: {article['title']}")
+            insert_query = """
+                INSERT INTO wiki_articles (title, summary, image_url)
+                VALUES (%s, %s, %s)
+            """
+            self.cursor.execute(insert_query, (article['title'], article['summary'], article['image_url']))
+            self.connection.commit() # Commit the transaction
+            self._logger.info(f"Article '{article['title']}' saved successfully.")
+            return True
+        except mariadb.Error as e:
+            self._logger.error(f"Error saving article '{article['title']}': {e}")
+            self.connection.rollback() #Rollback on error
+            return False
 
     def run(self):
-        # Setup logging for the script
-        logging.basicConfig(level=logging.INFO)
-        crawl_list = self.get_crawl_list()
+        """
+        Executes function for the crawler. Ensures cleanup of resources at the end.
+        """
+        self._logger.info("Crawler started.")
+        try:
+            crawl_list = self.get_crawl_list()
 
-        for url in crawl_list:
-            article = self.crawl(url)
-            self.save(article)
+            for url in crawl_list:
+                article = self.crawl(url)
+                if article:
+                    self.save(article)
 
+        except Exception as e:
+            self._logger.error(f"Unexpected error during crawling: {e}")
+        finally:
+            # Ensure the database connection is closed properly
+            if self.connection:
+                self.connection.close()
+                self._logger.info("Crawler finished and database connection closed.")
 
 if __name__ == '__main__':
-
     crawler = WikiCrawler()
     crawler.run()
