@@ -8,8 +8,8 @@ RUN apt update \
 WORKDIR /usr/src/app
 
 COPY requirements.txt /usr/src/app
-COPY dataloader.py /usr/src/app
+COPY DataLoader.py /usr/src/app
 
 RUN pip3 install -r requirements.txt
 
-CMD ["python3", "/usr/src/app/dataloader.py"]
+CMD ["python3", "/usr/src/app/DataLoader.py"]
