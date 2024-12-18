@@ -57,6 +57,7 @@ class DataLoader:
             df['ARRIVAL DATE'] = df['ARRIVAL DATE'].dt.strftime('%Y-%m-%d %H:%M:%S')       
             df['EXPORTER ADDRESS'] = df['EXPORTER ADDRESS'].astype(str)
             df['PLACE OF DELIVERY'] = df['PLACE OF DELIVERY'].astype(str)
+            df['MANUFACTORING COMPANY'] = df['MANUFACTORING COMPANY'].astype(str)
 
             self._logger.info("Data types successfully converted.")
             
