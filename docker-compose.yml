@@ -31,7 +31,7 @@ services:
   loader:
     build: ./data_loader
     networks:
-      -crawler-network
+      - crawler-network
     depends_on:
       - mariadb
     environment:
