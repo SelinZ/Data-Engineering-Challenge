@@ -42,7 +42,7 @@ services:
     volumes:
     # Mounting local directory to container so that it can read the excel file
       - ./data_loader:/usr/src/app/data_loader  
-    command: ["python3", "dataloader.py"] 
+    command: ["python3", "DataLoader.py"] 
 
 networks:
   crawler-network:
