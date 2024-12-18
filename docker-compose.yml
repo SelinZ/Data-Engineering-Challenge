@@ -17,7 +17,7 @@ services:
         target: /docker-entrypoint-initdb.d/
 
   crawler:
-    build: crawler
+    build: ./crawler
     networks:
       - crawler-network
     depends_on:
@@ -28,7 +28,23 @@ services:
       MARIADB_PASSWORD: "a-insights"
       MARIADB_HOST: "mariadb"
 
+  loader:
+    build: ./data_loader
+    networks:
+      -crawler-network
+    depends_on:
+      - mariadb
+    environment:
+      MARIADB_DATABASE: "crawler_dev"
+      MARIADB_USER: "crawler"
+      MARIADB_PASSWORD: "a-insights"
+      MARIADB_HOST: "mariadb"
+    volumes:
+    # Mounting local directory to container so that it can read the excel file
+      - ./data_loader:/usr/src/app/data_loader  
+    command: ["python3", "dataloader.py"] 
 
 networks:
   crawler-network:
     name: "crawler-network"
+
