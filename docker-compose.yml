@@ -10,7 +10,7 @@ services:
       MARIADB_RANDOM_ROOT_PASSWORD: "yes"
       MARIADB_DATABASE: "crawler_dev"
       MARIADB_USER: "crawler"
-      MARIADB_PASSWORD: "a-insights"
+      MARIADB_PASSWORD: XXX
     volumes:
       - type: bind
         source: ./database/
@@ -25,7 +25,7 @@ services:
     environment:
       MARIADB_DATABASE: "crawler_dev"
       MARIADB_USER: "crawler"
-      MARIADB_PASSWORD: "a-insights"
+      MARIADB_PASSWORD: XXX
       MARIADB_HOST: "mariadb"
 
 
