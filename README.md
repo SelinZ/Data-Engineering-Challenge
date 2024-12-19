@@ -72,7 +72,7 @@ To examine the state of the mariadb tables (for both debugging and assessment), 
 ```
 docker exec -it data-engineer-challenge-crawler-mariadb-1 bash
 
-mysql -u crawler -pa-insights
+mysql -u crawler -pXXX
 
 use crawler_dev;
 
