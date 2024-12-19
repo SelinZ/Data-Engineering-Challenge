@@ -1,9 +1,7 @@
 #!/usr/bin/python3
 """
-A crawler to get data from wikipedia.
+A crawler to get data from Wikipedia.
 
-:Copyright:
-    Copyright 2023 A-Insights.  All Rights Reserved.
 """
 
 import mariadb  
