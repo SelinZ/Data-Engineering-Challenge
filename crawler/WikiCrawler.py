@@ -30,7 +30,7 @@ class WikiCrawler:
         # Get ENV VAR parameters for MariaDB using os 
         self.db_host = os.getenv('MARIADB_HOST', 'mariadb') 
         self.db_user = os.getenv('MARIADB_USER', 'crawler') 
-        self.db_password = os.getenv('MARIADB_PASSWORD', 'a-insights') 
+        self.db_password = os.getenv('MARIADB_PASSWORD', '---') 
         self.db_name = os.getenv('MARIADB_DATABASE', 'crawler_dev') 
 
         # Attempt to connect to MariaDB 
